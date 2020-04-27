@@ -279,7 +279,20 @@ namespace EquipDevelopConstSettingTool
         private static void ModifyEntries()
         {
             int length = cstDevs.Length;
-            string[] specialIds = { "12043", "16007", "16008", "19024", "19060", "19073", "37002" };
+
+            /*
+             * 12003: C.Box (WR)
+             * 12013: C.Box (SMK)
+             * 12043: Stealth Camo
+             * 16003: Fulton Device Grade 3
+             * 16007: Fulton +Child
+             * 16008: Fulton +Wormhole
+             * 19024: Naked Fatigues (Gold)
+             * 19060: Parasite Suit
+             * 19073: Raiden
+             * 37002: Infinity Bandana
+             */
+            string[] specialIds = { "12003", "12013", "12043", "16003", "16007", "16008", "19024", "19060", "19073", "37002" };
 
             Console.Write("Modifying entries...");
 
@@ -290,6 +303,7 @@ namespace EquipDevelopConstSettingTool
                 if (cstDev.p04 != "0")
                     cstDev.p04 = "0";
 
+                //EXTRA is normally for DLC items. Removing it will break them. EXTRA_4010 is for the parasite powers. Removing it from them is fine.
                 if (cstDev.p05 != "65535" && !(cstDev.p05.Contains("EXTRA") && !cstDev.p05.Contains("EXTRA_4010")))
                     cstDev.p05 = "0";
 
@@ -297,6 +311,10 @@ namespace EquipDevelopConstSettingTool
                     cstDev.p05 = "65535";
 
                 if (Array.Exists(specialIds, x=> x == cstDev.p00))
+                    cstDev.p05 = "0";
+
+                //FOB Camos
+                if ((String.Compare(cstDev.p00, "19090") >= 0) && String.Compare(cstDev.p00, "19186") <= 0)
                     cstDev.p05 = "0";
             } //for
 
