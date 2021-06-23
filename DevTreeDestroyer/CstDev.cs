@@ -1,4 +1,4 @@
-﻿namespace EquipDevelopConstSettingTool
+﻿namespace DevTreeDestroyer
 {
     /*
      * p00 = ID
