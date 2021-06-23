@@ -26,11 +26,10 @@ namespace DevTreeDestroyer
             ReadFlowSetting("EquipDevelopFlowSetting.lua");
 
             CreateEqp();
-
-            if(modifyOnlineItems)
-                ModifyOnlineItems();
-
             StripCosts();
+
+            if (modifyOnlineItems)
+                ModifyOnlineItems();
 
             WriteConstSetting("EquipDevelopConstSetting2.lua");
             WriteFlowSetting("EquipDevelopFlowSetting2.lua");
@@ -85,6 +84,13 @@ namespace DevTreeDestroyer
             int count = eqps.Count;
 
             /*
+             * 1080: Water Pistol Grade 3
+             * 1090: ADAM-SKA SP.
+             * 1091: WUS 333 CB SP.
+             * 2030: MACHT-P5 WEISS
+             * 4060: RASP SB-SG GOLD
+             * 9010 - 9013: DLC Shields
+             * 
              * 12003: C.Box (WR)
              * 12013: C.Box (SMK)
              * 12043: Stealth Camo
@@ -96,7 +102,8 @@ namespace DevTreeDestroyer
              * 19073: Raiden
              * 37002: Infinity Bandana
              */
-            string[] specialIds = { "12003", "12013", "12043", "16003", "16007", "16008", "19024", "19060", "19073", "37002" };
+            string[] specialIds = {"12003", "12013", "12043", "16003", "16007", "16008", "19024", "19060", "19073", "37002" };
+            string[] specialIds2 = { "1080", "1090", "1091", "2030", "4060", "9010", "9011", "9012", "9013" };
 
             Console.Write("Modifying entries...");
 
@@ -118,6 +125,9 @@ namespace DevTreeDestroyer
 
                 if (Array.Exists(specialIds, x => x == cstDev.p00))
                     cstDev.p05 = "0";
+
+                if (Array.Exists(specialIds2, x => x == cstDev.p00))
+                    cstDev.p05 = "65535";
 
                 //FOB Camos
                 //if ((String.Compare(cstDev.p00, "19090") >= 0) && String.Compare(cstDev.p00, "19186") <= 0)
