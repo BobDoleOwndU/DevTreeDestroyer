@@ -55,7 +55,8 @@ namespace DevTreeDestroyer
             {
                 Eqp eqp = eqps[i];
 
-                if ((eqp.flwDev.p69 == "1" || eqp.flwDev.p72 == "1") && eqp.cstDev.p02 != "TppMbDev.EQP_DEV_TYPE_Suit") //Suits break if their id is changed.
+                //Anything without a unique p01 will break. This includes suits, arms and items other than cboxes.
+                if ((eqp.flwDev.p69 == "1" || eqp.flwDev.p72 == "1") && !(eqp.cstDev.p02 == "TppMbDev.EQP_DEV_TYPE_Suit" || (eqp.cstDev.p02 == "TppMbDev.EQP_DEV_TYPE_Equip" && !eqp.cstDev.p01.Contains("TppEquip.EQP_IT_CBox")) || eqp.cstDev.p02 == "TppMbDev.EQP_DEV_TYPE_ArtificialArm"))
                 {
                     ids.Add(new Tuple<string, int>(eqp.cstDev.p00, i));
 
@@ -870,6 +871,7 @@ namespace DevTreeDestroyer
             Console.WriteLine($"p36 = {eqp.cstDev.p36}");*/
 
             Console.WriteLine($"p69 = {eqp.flwDev.p69}");
+            Console.WriteLine($"p72 = {eqp.flwDev.p72}");
         } //DisplayEqpInfo
     } //class
 } //namespace
