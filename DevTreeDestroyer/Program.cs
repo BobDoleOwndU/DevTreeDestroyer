@@ -55,8 +55,12 @@ namespace DevTreeDestroyer
             {
                 Eqp eqp = eqps[i];
 
-                //Anything without a unique p01 will break. This includes suits, arms and items other than cboxes.
-                if ((eqp.flwDev.p69 == "1" || eqp.flwDev.p72 == "1") && !(eqp.cstDev.p02 == "TppMbDev.EQP_DEV_TYPE_Suit" || (eqp.cstDev.p02 == "TppMbDev.EQP_DEV_TYPE_Equip" && !eqp.cstDev.p01.Contains("TppEquip.EQP_IT_CBox")) || eqp.cstDev.p02 == "TppMbDev.EQP_DEV_TYPE_ArtificialArm"))
+                //Anything without a unique p01 will break. This includes suits, arms and items other than cboxes. Some buddy equipment will also break.
+                if ((eqp.flwDev.p69 == "1" || eqp.flwDev.p72 == "1") &&
+                    !(eqp.cstDev.p02 == "TppMbDev.EQP_DEV_TYPE_Suit" || (eqp.cstDev.p02 == "TppMbDev.EQP_DEV_TYPE_Equip" && !eqp.cstDev.p01.Contains("TppEquip.EQP_IT_CBox")) || eqp.cstDev.p02 == "TppMbDev.EQP_DEV_TYPE_ArtificialArm" || eqp.cstDev.p02 == "TppMbDev.EQP_DEV_TYPE_Quiet") &&
+                    !eqp.cstDev.p09.Contains("TppMbDev.EQP_DEV_GROUP_BUDDY") &&
+                    !((String.Compare(eqp.cstDev.p00, "16001") >= 0) && (String.Compare(eqp.cstDev.p00, "16008") <= 0)) //Ignore fulton stuff.
+                   )
                 {
                     ids.Add(new Tuple<string, int>(eqp.cstDev.p00, i));
 
@@ -843,32 +847,32 @@ namespace DevTreeDestroyer
         {
             Eqp eqp = eqps[index];
 
-            /*Console.WriteLine($"Index {index}\n================================");
+            //Console.WriteLine($"Index {index}\n================================");
             Console.WriteLine($"p00 = {eqp.cstDev.p00}");
-            Console.WriteLine($"p01 = {eqp.cstDev.p01}");
-            Console.WriteLine($"p02 = {eqp.cstDev.p02}");
-            Console.WriteLine($"p03 = {eqp.cstDev.p03}");
-            Console.WriteLine($"p04 = {eqp.cstDev.p04}");
-            Console.WriteLine($"p05 = {eqp.cstDev.p05}");
-            Console.WriteLine($"p06 = {eqp.cstDev.p06}");
-            Console.WriteLine($"p07 = {eqp.cstDev.p07}");
-            Console.WriteLine($"p08 = {eqp.cstDev.p08}");
-            Console.WriteLine($"p09 = {eqp.cstDev.p09}");
-            Console.WriteLine($"p10 = {eqp.cstDev.p10}");
-            Console.WriteLine($"p11 = {eqp.cstDev.p11}");
-            Console.WriteLine($"p12 = {eqp.cstDev.p12}");
-            Console.WriteLine($"p13 = {eqp.cstDev.p13}");
-            Console.WriteLine($"p14 = {eqp.cstDev.p14}");
-            Console.WriteLine($"p15 = {eqp.cstDev.p15}");
-            Console.WriteLine($"p16 = {eqp.cstDev.p16}");
-            Console.WriteLine($"p17 = {eqp.cstDev.p17}");
-            Console.WriteLine($"p30 = {eqp.cstDev.p30}");
-            Console.WriteLine($"p31 = {eqp.cstDev.p31}");
-            Console.WriteLine($"p32 = {eqp.cstDev.p32}");
-            Console.WriteLine($"p33 = {eqp.cstDev.p33}");
-            Console.WriteLine($"p34 = {eqp.cstDev.p34}");
-            Console.WriteLine($"p35 = {eqp.cstDev.p35}");
-            Console.WriteLine($"p36 = {eqp.cstDev.p36}");*/
+            //Console.WriteLine($"p01 = {eqp.cstDev.p01}");
+            //Console.WriteLine($"p02 = {eqp.cstDev.p02}");
+            //Console.WriteLine($"p03 = {eqp.cstDev.p03}");
+            //Console.WriteLine($"p04 = {eqp.cstDev.p04}");
+            //Console.WriteLine($"p05 = {eqp.cstDev.p05}");
+            //Console.WriteLine($"p06 = {eqp.cstDev.p06}");
+            //Console.WriteLine($"p07 = {eqp.cstDev.p07}");
+            //Console.WriteLine($"p08 = {eqp.cstDev.p08}");
+            //Console.WriteLine($"p09 = {eqp.cstDev.p09}");
+            //Console.WriteLine($"p10 = {eqp.cstDev.p10}");
+            //Console.WriteLine($"p11 = {eqp.cstDev.p11}");
+            //Console.WriteLine($"p12 = {eqp.cstDev.p12}");
+            //Console.WriteLine($"p13 = {eqp.cstDev.p13}");
+            //Console.WriteLine($"p14 = {eqp.cstDev.p14}");
+            //Console.WriteLine($"p15 = {eqp.cstDev.p15}");
+            //Console.WriteLine($"p16 = {eqp.cstDev.p16}");
+            //Console.WriteLine($"p17 = {eqp.cstDev.p17}");
+            //Console.WriteLine($"p30 = {eqp.cstDev.p30}");
+            //Console.WriteLine($"p31 = {eqp.cstDev.p31}");
+            //Console.WriteLine($"p32 = {eqp.cstDev.p32}");
+            //Console.WriteLine($"p33 = {eqp.cstDev.p33}");
+            //Console.WriteLine($"p34 = {eqp.cstDev.p34}");
+            //Console.WriteLine($"p35 = {eqp.cstDev.p35}");
+            //Console.WriteLine($"p36 = {eqp.cstDev.p36}");
 
             Console.WriteLine($"p69 = {eqp.flwDev.p69}");
             Console.WriteLine($"p72 = {eqp.flwDev.p72}");
