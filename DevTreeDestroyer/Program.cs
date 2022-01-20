@@ -56,10 +56,12 @@ namespace DevTreeDestroyer
                 Eqp eqp = eqps[i];
 
                 //Anything without a unique p01 will break. This includes suits, arms and items other than cboxes. Some buddy equipment will also break.
+                //Security devices also don't work if they have their IDs changed.
                 if ((eqp.flwDev.p69 == "1" || eqp.flwDev.p72 == "1") &&
-                    !(eqp.cstDev.p02 == "TppMbDev.EQP_DEV_TYPE_Suit" || (eqp.cstDev.p02 == "TppMbDev.EQP_DEV_TYPE_Equip" && !eqp.cstDev.p01.Contains("TppEquip.EQP_IT_CBox")) || eqp.cstDev.p02 == "TppMbDev.EQP_DEV_TYPE_ArtificialArm" || eqp.cstDev.p02 == "TppMbDev.EQP_DEV_TYPE_Quiet") &&
+                    !(eqp.cstDev.p02 == "TppMbDev.EQP_DEV_TYPE_Suit" || (eqp.cstDev.p02 == "TppMbDev.EQP_DEV_TYPE_Equip" && !eqp.cstDev.p01.Contains("TppEquip.EQP_IT_CBox")) || eqp.cstDev.p02 == "TppMbDev.EQP_DEV_TYPE_ArtificialArm" || eqp.cstDev.p02 == "TppMbDev.EQP_DEV_TYPE_Quiet" || eqp.cstDev.p02 == "TppMbDev.EQP_DEV_TYPE_SecurityGadgets") &&
                     !eqp.cstDev.p09.Contains("TppMbDev.EQP_DEV_GROUP_BUDDY") &&
-                    !((String.Compare(eqp.cstDev.p00, "16001") >= 0) && (String.Compare(eqp.cstDev.p00, "16008") <= 0)) //Ignore fulton stuff.
+                    !((String.Compare(eqp.cstDev.p00, "16001") >= 0) && (String.Compare(eqp.cstDev.p00, "16008") <= 0)) && //Ignore fulton stuff.
+                    eqp.cstDev.p00 != "12003" //WR Cbox breaks too for some reason.
                    )
                 {
                     ids.Add(new Tuple<string, int>(eqp.cstDev.p00, i));
@@ -105,9 +107,10 @@ namespace DevTreeDestroyer
              * 19024: Naked Fatigues (Gold)
              * 19060: Parasite Suit
              * 19073: Raiden
+             * 28003: Task-Arm SM
              * 37002: Infinity Bandana
              */
-            string[] specialIds = {"12003", "12013", "12043", "16003", "16007", "16008", "19024", "19060", "19073", "37002" };
+            string[] specialIds = { "12003", "12013", "12043", "16003", "16007", "16008", "19024", "19060", "19073", "28003", "37002" };
             string[] specialIds2 = { "1080", "1090", "1091", "2030", "4060", "9010", "9011", "9012", "9013" };
 
             Console.Write("Modifying entries...");
